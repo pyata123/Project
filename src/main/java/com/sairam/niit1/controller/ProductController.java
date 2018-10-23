@@ -2,11 +2,8 @@ package com.sairam.niit1.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,64 +14,73 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.sairam.niit1.dao.CategoryDao;
 import com.sairam.niit1.dao.ProductDao;
-import com.sairam.niit1.model.Category;
+import com.sairam.niit1.dao.SupplierDao;
 import com.sairam.niit1.model.Product;
 
+
+
 @Controller
-public class ProductController
-{
-    @Autowired
-    ProductDao dao;
-    
-    @RequestMapping("/product")
-    public ModelAndView proInfo()
+public class ProductController {
+@Autowired
+ProductDao productdao;
+	@Autowired
+	CategoryDao categoryDao;
+	@Autowired
+	SupplierDao supplierDao;
+	@RequestMapping("/products")
+	public ModelAndView proInfo()
+	{
+		ModelAndView modelAndView= new ModelAndView("showproducts","pro",new Product());
+		List catList =categoryDao.getAllCategory();
+		  List proList=productdao.getAllProducts();
+		 List supList= supplierDao.getAllSupplier();
+		modelAndView.addObject("productInfo",proList);
+		modelAndView.addObject("catInfo",catList);
+		modelAndView.addObject("supInfo",supList);
+		return modelAndView;
+	}
+	@RequestMapping(value="/addProduct",method=RequestMethod.POST)
+    public ModelAndView saveProduct(@ModelAttribute("pro") Product pro)throws Exception
     {
-    	
-      ModelAndView mv1 = new ModelAndView("showproduct","pro",new Product());
-      List proList1 =dao.getAllProducts();
-      mv1.addObject("productInfo",proList1);
-      return mv1;
+	pro.setId((int)(Math.random()*10000));
+//	int id=pro.getId();
+		MultipartFile proimg=pro.getProductImage();
+		
+		File f=new File("D:\\niit\\32bit\\eclipse\\dt12\\Sairam2\\src\\main\\webapp\\resources\\"+pro.getId()+".jpg");
+		
+		FileOutputStream fos=new FileOutputStream(f);
+		
+		BufferedOutputStream bos=new BufferedOutputStream(fos);
+		bos.write(proimg.getBytes());
+		bos.flush();
+		bos.close();
+        productdao.insert(pro);
+        List proList=productdao.getAllProducts();
+    ModelAndView modelAndView=new ModelAndView("showproducts","productInfo",proList);
+    return modelAndView;
     }
-    @RequestMapping(value="/addProduct",method=RequestMethod.POST)
-    public ModelAndView saveProduct(@ModelAttribute("pro") Product pro) throws IOException
-   {
-    	pro.setProid((int)(Math.random()*10000));
-    	int id=pro.getProid();
-MultipartFile image=pro.getImage();
-        
-        File file=new File("D:\\niit\\32bit\\eclipse\\dt12\\Sairam2\\src\\main\\webapp\\resources\\"+pro.getProid()+".jpg");
-        
-        //System.out.println(image.getClass().getName());
-        FileOutputStream fos=new FileOutputStream(file);
-        BufferedOutputStream bos=new BufferedOutputStream(fos);
-        bos.write(image.getBytes());
-       dao.insert(pro);
-       List proList1 =dao.getAllProducts();
-   ModelAndView mv=new ModelAndView("showproduct","productInfo",proList1);
-   return mv;
-   }
-    @RequestMapping("/deleteProduct")
-    public ModelAndView deleteProduct(@RequestParam("proId") int pro)
-    {
-       dao.deletepro(pro);
-       List proList1 =dao.getAllProducts();
-       
-    ModelAndView mv=new ModelAndView("showproduct","pro",new Product());
-    mv.addObject("productInfo",proList1);
-    return mv;
-    
-    }
-    @RequestMapping("/editProduct")
-    public ModelAndView editProduct(@RequestParam("proId") int pro)
-    {
-     Product proe =dao.editpro(pro);
-       List proList1 =dao.getAllProducts();
-       
-    ModelAndView mv=new ModelAndView("showproduct","pro",proe);
-    mv.addObject("productInfo",proList1);
-    return mv;
-    
-    }
-    
+	@RequestMapping("/deleteProduct")
+	public ModelAndView deleteProduct(@RequestParam("proid")int productid)
+	{
+		productdao.deletePro(productid);
+		  List proList=productdao.getAllProducts();
+		  ModelAndView modelAndView=new ModelAndView("showproducts","pro",new Product());
+			modelAndView.addObject("productInfo",proList);
+
+		return modelAndView;
+	}
+	@RequestMapping("/editProduct")
+	public ModelAndView editProduct(@RequestParam("proid")int productid)
+	{
+	Product	prod=productdao.editPro(productid);
+		  List proList=productdao.getAllProducts();
+		  ModelAndView modelAndView=new ModelAndView("showproducts","pro",prod);
+			modelAndView.addObject("productInfo",proList);
+
+		return modelAndView;
+	}
+
+	
 }

@@ -11,9 +11,11 @@ public class Cart
 	@Id
 private int cartId;
 	@Column
-private String proname;
+private String cartUser;
 	@Column
-private int proprice;
+private String productName;
+	@Column
+private int productPrice;
 	@Column
 private int quantity;
 	@Column
@@ -24,17 +26,23 @@ private int totalPrice;
 	public void setCartId(int cartId) {
 		this.cartId = cartId;
 	}
-	public String getProname() {
-		return proname;
+	public String getCartUser() {
+		return cartUser;
 	}
-	public void setProname(String proname) {
-		this.proname = proname;
+	public void setCartUser(String cartUser) {
+		this.cartUser = cartUser;
 	}
-	public int getProprice() {
-		return proprice;
+	public String getProductName() {
+		return productName;
 	}
-	public void setProprice(int proprice) {
-		this.proprice = proprice;
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public int getProductPrice() {
+		return productPrice;
+	}
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
 	}
 	public int getQuantity() {
 		return quantity;

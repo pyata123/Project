@@ -1,16 +1,18 @@
 package com.sairam.niit1.dao;
 
-
-
 import java.util.List;
 
-import com.sairam.niit1.model.Category;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import com.sairam.niit1.model.Supplier;
 
-public interface SupplierDao 
-{
+
+@Component
+@Repository
+public interface SupplierDao {
 boolean insert(Supplier supplier);
-public List getAllSupplier();
-boolean deletesup(int s);
-Supplier editsup(int s);
+List getAllSupplier();
+boolean deleteSup(int s);
+Supplier editSup(int s);
 }

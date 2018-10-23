@@ -7,9 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-
 ${v1.proid}
-
 ${v1.proname}
 </body>
 </html>

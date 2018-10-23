@@ -6,55 +6,55 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.sairam.niit1.dao.CategoryDao;
 import com.sairam.niit1.model.Category;
 
-@Controller
-public class CategoryController 
-{
 
-    @Autowired
-    CategoryDao cdao;
-    
-@RequestMapping("/category")
+
+@Controller
+public class CategoryController {
+	
+	@Autowired
+	CategoryDao categorydao;
+@RequestMapping("/categories")
 public ModelAndView m1()
 {
-    ModelAndView mv1= new ModelAndView("showcategory","cate",new Category());
-    List catList1 =cdao.getAllCategory();
-    mv1.addObject("catInfo",catList1);
-    return mv1;
+	ModelAndView modelAndView= new ModelAndView("showcategory","cat",new Category());
+	  List catList=categorydao.getAllCategory();
+			modelAndView.addObject("catInfo",catList);
+
+	return modelAndView;
 }
-@RequestMapping(value="/addCategory",method=RequestMethod.POST )
-public ModelAndView saveCategory(@ModelAttribute("cate") Category cat)
+@RequestMapping("/addCategory")
+public ModelAndView saveCategory(@ModelAttribute("cat") Category cat)
 {
-   cdao.insert(cat);
-   List catList1 =cdao.getAllCategory();
-   
-ModelAndView mv=new ModelAndView("showcategory","catInfo",catList1);
-return mv;
+    categorydao.insert(cat);
+    List catList=categorydao.getAllCategory();
+ModelAndView modelAndView=new ModelAndView("showcategory","catInfo",catList);
+return modelAndView;
 }
 @RequestMapping("/deleteCategory")
-public ModelAndView deleteCategory(@RequestParam("catId") int cat)
+public ModelAndView deleteCategory(@RequestParam("catid")int categoryid)
 {
-   cdao.deletecat(cat);
-   List catList1 =cdao.getAllCategory();
-   
-ModelAndView mv=new ModelAndView("showcategory","cate",new Category());
-mv.addObject("catInfo",catList1);
-return mv;
+	categorydao.deleteCat(categoryid);
+	  List catList=categorydao.getAllCategory();
+	  ModelAndView modelAndView=new ModelAndView("showcategory","cat",new Category());
+		modelAndView.addObject("catInfo",catList);
+
+	return modelAndView;
 }
 @RequestMapping("/editCategory")
-public ModelAndView editCategory(@RequestParam("catId") int cat)
+public ModelAndView editCategory(@RequestParam("catid")int categoryid)
 {
- Category cate= cdao.editcat(cat);
-   List catList1 =cdao.getAllCategory();
-   
-ModelAndView mv=new ModelAndView("showcategory","cate", cate);
-mv.addObject("catInfo",catList1);
-return mv;
+Category	cat=categorydao.editCat(categoryid);
+	  List catList=categorydao.getAllCategory();
+	  ModelAndView modelAndView=new ModelAndView("showcategory","cat",cat);
+		modelAndView.addObject("catInfo",catList);
+
+	return modelAndView;
 }
+
 }

@@ -1,17 +1,13 @@
 package com.sairam.niit1.model;
 
 import javax.persistence.Column;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name="supplierdata")
-public class Supplier 
-{
+public class Supplier {
 @Id
-private int supplierId;
+	private int supplierId;
 @Column
 private String supplierName;
 @Column

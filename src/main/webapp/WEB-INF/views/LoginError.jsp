@@ -7,9 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-${supInfo.supplierId}
-${supInfo.supplierName}
-${supInfo.supplierDescription}
-
+<script>
+alert("login failed");
+</script>
 </body>
 </html>

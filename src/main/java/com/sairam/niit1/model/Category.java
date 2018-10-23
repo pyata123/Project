@@ -1,20 +1,19 @@
 package com.sairam.niit1.model;
 
 import javax.persistence.Column;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="categorydata")
-public class Category
-{
-@Id
+@Table(name="category")
+public class Category {
+	@Id
+	@Column(name="categoryid")
 private int catId;
-@Column
-private String catName;
-@Column
+	@Column(name="categoryName")
+private String CatName;
+	@Column(name="categorydecp")
 private String catDescription;
 public int getCatId() {
 	return catId;
@@ -23,10 +22,10 @@ public void setCatId(int catId) {
 	this.catId = catId;
 }
 public String getCatName() {
-	return catName;
+	return CatName;
 }
 public void setCatName(String catName) {
-	this.catName = catName;
+	CatName = catName;
 }
 public String getCatDescription() {
 	return catDescription;
@@ -34,8 +33,5 @@ public String getCatDescription() {
 public void setCatDescription(String catDescription) {
 	this.catDescription = catDescription;
 }
-
-
-
 
 }
